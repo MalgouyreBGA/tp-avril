@@ -8,10 +8,8 @@ function getHeader(style){
     return temp
 }
 form = '<form action="/users" method="POST">'
-    +'<div class="form-group">'
-    +'<label>Name<input class="form-control" name="name" type="text" /></label>'
-    +'<label>Birth<input class="form-control" name="birth" type="date" /></label>'
-    +'</div>'
+    +'<label>Name : <input class="form-control" name="name" type="text" /></label>'
+    +'<label>Birth : <input class="form-control" name="birth" type="date" /></label>'
     +'<button type="submit" class="btn btn-primary">Ajouter</button>'
     +'</form>'
 
