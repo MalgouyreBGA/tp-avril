@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
     const path = parsedUrl.pathname;
     const method = req.method.toUpperCase();
 
-    if (url === "style") {
+    if (path === "/style") {
         res.writeHead(200, { "Content-Type": "text/css" });
         const css = fs.readFileSync("assets/css/style.css");
         res.write(css);
