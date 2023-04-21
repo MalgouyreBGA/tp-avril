@@ -1,10 +1,14 @@
-//import http from 'http'
 const http = require('http');
-//import url from 'url'
 const url = require('url');
 const fs = require("fs");
 const dotenv = require('dotenv').config().parsed
 const utils = require('./utils.js')
+
+function users(res, htmlData){
+    const home = fs.readFileSync("view/home.html");
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(home + utils.getHeader('users') + htmlData );
+}
 
 let students = [
     { name : "Sonia", birth : "2019-14-05"},
@@ -13,11 +17,6 @@ let students = [
     { name : "Sophie", birth : "2001-10-02"},
     { name : "Bernard", birth : "1980-21-08"}
 ];
-function users(res, htmlData){
-    const home = fs.readFileSync("view/home.html");
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(home + utils.getHeader('users') + htmlData );
-}
 
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
@@ -34,6 +33,7 @@ const server = http.createServer((req, res) => {
 
     console.log(req.method)
     console.log(path)
+// ###################################
     if (method === 'GET' && path.startsWith('/')) {
         if (path === '/') {
             const home = fs.readFileSync("view/home.html");
@@ -43,7 +43,7 @@ const server = http.createServer((req, res) => {
             let htmlData = utils.lines(students)
             users(res, htmlData)
         }
-
+// ###################################
     } else if (method === 'POST' && parsedUrl.pathname === '/users'){
         req.on('data', (chunk) => {
             f = chunk.toString().split('&')
@@ -60,13 +60,14 @@ const server = http.createServer((req, res) => {
             users(res, htmlData)
             return 
         })
-
-
-
+// ###################################
     } else if (req.method = 'DELETE' && req.url.startsWith('/users/')){
         req.on('data', (chunk) => {
-           console.log(chunk.toString());
            /*
+           console.log(chunk.toString());
+           
+
+
             console.log(req.method)
             console.log('post')
             let index = Number(path.replace('/users/', "")) || undefined
@@ -81,15 +82,14 @@ const server = http.createServer((req, res) => {
             users(res, htmlData)
             return 
         })
-
-    }
-    else {
+// ###################################
+    } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.write('Not found');
     res.end();
   }
 });
-
+// ###################################
 server.listen(dotenv.APP_PORT, dotenv.APP_LOCALHOST, () => {
     console.log(`Server is running on ${dotenv.APP_LOCALHOST} port ${dotenv.APP_PORT}`);
 });
